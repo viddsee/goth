@@ -3,7 +3,7 @@ package discord
 import (
 	"testing"
 
-	"github.com/markbates/goth"
+	"github.com/viddsee/goth"
 	"github.com/stretchr/testify/assert"
 )
 

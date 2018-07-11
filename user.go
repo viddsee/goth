@@ -23,6 +23,8 @@ type User struct {
 	UserID            string
 	AvatarURL         string
 	Location          string
+	Birthday          string
+	Gender            string
 	AccessToken       string
 	AccessTokenSecret string
 	RefreshToken      string

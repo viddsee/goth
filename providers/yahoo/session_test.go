@@ -1,8 +1,8 @@
 package yahoo_test
 
 import (
-	"github.com/markbates/goth"
-	"github.com/markbates/goth/providers/yahoo"
+	"github.com/viddsee/goth"
+	"github.com/viddsee/goth/providers/yahoo"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

@@ -15,14 +15,15 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"github.com/markbates/goth"
+
+	"github.com/viddsee/goth"
 	"golang.org/x/oauth2"
 )
 
 const (
 	authURL         string = "https://www.facebook.com/dialog/oauth"
 	tokenURL        string = "https://graph.facebook.com/oauth/access_token"
-	endpointProfile string = "https://graph.facebook.com/me?fields=email,first_name,last_name,link,about,id,name,picture,location"
+	endpointProfile string = "https://graph.facebook.com/me?fields=email,first_name,last_name,id,name,picture,birthday,gender"
 )
 
 // New creates a new Facebook provider, and sets up important connection details.
@@ -90,7 +91,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	}
 
 	// always add appsecretProof to make calls more protected
-	// https://github.com/markbates/goth/issues/96
+	// https://github.com/viddsee/goth/issues/96
 	// https://developers.facebook.com/docs/graph-api/securing-requests
 	hash := hmac.New(sha256.New, []byte(p.Secret))
 	hash.Write([]byte(sess.AccessToken))
@@ -124,19 +125,16 @@ func userFromReader(reader io.Reader, user *goth.User) error {
 	u := struct {
 		ID        string `json:"id"`
 		Email     string `json:"email"`
-		About     string `json:"about"`
 		Name      string `json:"name"`
 		FirstName string `json:"first_name"`
 		LastName  string `json:"last_name"`
-		Link      string `json:"link"`
 		Picture   struct {
 			Data struct {
 				URL string `json:"url"`
 			} `json:"data"`
 		} `json:"picture"`
-		Location struct {
-			Name string `json:"name"`
-		} `json:"location"`
+		Birthday string `json:"birthday"`
+		Gender   string `json:"gender"`
 	}{}
 
 	err := json.NewDecoder(reader).Decode(&u)
@@ -149,10 +147,10 @@ func userFromReader(reader io.Reader, user *goth.User) error {
 	user.LastName = u.LastName
 	user.NickName = u.Name
 	user.Email = u.Email
-	user.Description = u.About
 	user.AvatarURL = u.Picture.Data.URL
 	user.UserID = u.ID
-	user.Location = u.Location.Name
+	user.Birthday = u.Birthday
+	user.Gender = u.Gender
 
 	return err
 }
