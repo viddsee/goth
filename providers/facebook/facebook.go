@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	authURL         string = "https://www.facebook.com/dialog/oauth"
+	authURL         string = "https://www.facebook.com/dialog/oauth?auth_type=reauthenticate"
 	tokenURL        string = "https://graph.facebook.com/oauth/access_token"
 	endpointProfile string = "https://graph.facebook.com/me?fields=email,first_name,last_name,id,name,picture,birthday,gender"
 )
